@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react';
 export default () => {
     const [text, setText] = useState('');
-    const [text2, setText2] = useState('');
+    const [console, setConsole] = useState('');
     useEffect(() => {
         get();
     }, []);
     const get = () => {
-        fetch('/static/text.json', {
+        fetch('/api', {
             method: 'GET',
             mode: 'cors',// 允许发送跨域请求
             credentials: 'include'
         }).then(function (response) {
             //打印返回的json数据
-            response.json().then(function (data) {
-                let one = data[Math.floor((Math.random() * data.length))];
+            response.json().then(function (one) {
                 setText(one.text);
-                setText2(one.console);
+                setConsole(one.console);
             })
         }).catch(function (e) {
             console.log('error: ' + e.toString());
@@ -26,7 +25,7 @@ export default () => {
             <div className="content" onClick={get}>
                 <div className="title m-b-md">
                     <h2>{text}</h2>
-                    <p>{text2}</p>
+                    <p>{console}</p>
                 </div>
             </div>
         </div>
